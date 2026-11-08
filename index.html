@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>প্রাইভেট শুক্রাণু ডোনার বাংলাদেশ | তথ্য ও যোগাযোগ</title>
+<meta name="description" content="বাংলাদেশে প্রজনন স্বাস্থ্য, দাতা-সংক্রান্ত তথ্য এবং চিকিৎসকের পরামর্শ নেওয়ার জন্য যোগাযোগের তথ্যভিত্তিক ওয়েবসাইট।">
+<meta name="robots" content="index,follow">
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif;color:#172033;background:#f4f7fb}*{box-sizing:border-box}body{margin:0;line-height:1.65}.wrap{max-width:850px;margin:auto;padding:22px}.hero{background:#123d5a;color:white;padding:34px 22px;border-radius:18px;margin:20px 0}.hero h1{font-size:clamp(26px,5vw,38px);margin:0 0 8px}.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:22px;margin:16px 0;box-shadow:0 4px 18px #102a430a}h2{margin-top:0;font-size:22px}label{display:block;font-weight:650;margin:13px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #bdc9d6;border-radius:9px;font:inherit;background:#fff}button{border:0;border-radius:10px;padding:12px 18px;background:#126b54;color:white;font:inherit;font-weight:700;cursor:pointer;margin-top:16px}button:disabled{opacity:.6}.muted{color:#526174;font-size:14px}.notice{background:#fff7e6;border-left:4px solid #d99b22;padding:12px 14px;border-radius:8px}.success{color:#126b54;font-weight:700}.error{color:#b42318;font-weight:700}footer{text-align:center;color:#526174;padding:20px}
+@media print{body{background:white}.no-print,.hero,footer{display:none!important}.card{box-shadow:none;border:0}}
+</style></head>
+<body><main class="wrap">
+<section class="hero"><h1>প্রাইভেট শুক্রাণু ডোনার বাংলাদেশ</h1><p>প্রজনন স্বাস্থ্য ও দাতা-সংক্রান্ত বিষয়ে প্রাথমিক তথ্য এবং যোগাযোগের আবেদন।</p></section>
+<section class="card"><div class="notice"><b>গুরুত্বপূর্ণ:</b> এই ওয়েবসাইট কোনো হাসপাতাল, ক্লিনিক বা চিকিৎসা প্রতিষ্ঠান নয়। এখানে দাতা-গ্রহীতার সরাসরি মিল, শুক্রাণু সংগ্রহ/হস্তান্তর বা চিকিৎসা-প্রক্রিয়া পরিচালনা করা হয় না। এসব বিষয়ে নিবন্ধিত ফার্টিলিটি বিশেষজ্ঞ ও লাইসেন্সপ্রাপ্ত চিকিৎসাকেন্দ্রের পরামর্শ নিন।</div></section>
+<section class="card">
+<h2>তথ্য / যোগাযোগের আবেদন</h2>
+<p class="muted">শুধু প্রয়োজনীয় যোগাযোগের তথ্য দিন। আবেদনটি ব্যক্তিগত থাকবে; প্রকাশ্যে দেখানো হবে না। ১৮ বছরের কম বয়সীরা আবেদন করবেন না।</p>
+<form id="requestForm">
+<label for="request_type">আবেদনের ধরন</label><select id="request_type" required><option value="information_request">তথ্য জানতে চাই</option><option value="general_contact">সাধারণ যোগাযোগ</option></select>
+<label for="full_name">পূর্ণ নাম</label><input id="full_name" minlength="2" maxlength="100" required autocomplete="name">
+<label for="phone">মোবাইল নম্বর</label><input id="phone" type="tel" minlength="5" maxlength="30" required autocomplete="tel">
+<label for="age_band">বয়সের পরিসর</label><select id="age_band" required><option value="">নির্বাচন করুন</option><option>18-24</option><option>25-34</option><option>35-44</option><option>45+</option></select>
+<label for="district">জেলা</label><input id="district" minlength="2" maxlength="80" required>
+<label for="message">আপনার প্রশ্ন (ঐচ্ছিক)</label><textarea id="message" maxlength="1000" rows="4"></textarea>
+<label style="font-weight:400"><input id="consent" type="checkbox" required style="width:auto"> আমি সম্মতি দিচ্ছি যে আমার দেওয়া তথ্য কেবল এই যোগাযোগের আবেদনটি পর্যালোচনার জন্য ব্যবহার করা হবে।</label>
+<button id="submitBtn" type="submit">আবেদন জমা দিন</button><p id="status" role="status" aria-live="polite"></p>
+</form></section>
+<section class="card"><h2>গোপনীয়তা</h2><p>আপনার নাম, ফোন নম্বর, বয়সের পরিসর, জেলা ও বার্তা কেবল যোগাযোগের উদ্দেশ্যে জমা হয়। ওয়েবসাইটে আবেদনকারীদের তালিকা প্রকাশ করা হয় না। অপ্রয়োজনীয় চিকিৎসা, জেনেটিক বা পরিচয়-সংক্রান্ত তথ্য দেবেন না। তথ্য মুছে ফেলার অনুরোধ করতে ইমেইল করুন: <a href="mailto:donorspermbangladesh@gmail.com">donorspermbangladesh@gmail.com</a></p></section>
+<section class="card"><h2>যোগাযোগ</h2><p><a href="mailto:donorspermbangladesh@gmail.com">donorspermbangladesh@gmail.com</a></p></section>
+<footer>© <span id="year"></span> প্রাইভেট শুক্রাণু ডোনার বাংলাদেশ</footer>
+</main>
+<script>
+const SUPABASE_URL="https://yjmzscsshptmntfottzr.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k";
+document.getElementById("year").textContent=new Date().getFullYear();
+const form=document.getElementById("requestForm"),btn=document.getElementById("submitBtn"),status=document.getElementById("status");
+form.addEventListener("submit",async e=>{
+ e.preventDefault(); if(!form.reportValidity()) return;
+ btn.disabled=true;status.className="";status.textContent="আবেদন জমা হচ্ছে…";
+ const payload={request_type:document.getElementById("request_type").value,full_name:document.getElementById("full_name").value.trim(),phone:document.getElementById("phone").value.trim(),age_band:document.getElementById("age_band").value,district:document.getElementById("district").value.trim(),message:document.getElementById("message").value.trim()||null,consent:document.getElementById("consent").checked,status:"pending"};
+ try{
+ const res=await fetch(SUPABASE_URL+"/rest/v1/contact_requests",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_ANON_KEY,"Authorization":"Bearer "+SUPABASE_ANON_KEY,"Prefer":"return=minimal"},body:JSON.stringify(payload)});
+ if(!res.ok){const msg=await res.text();throw new Error(msg||"আবেদন জমা হয়নি");}
+ status.className="success";status.textContent="আপনার আবেদন জমা হয়েছে। এটি ব্যক্তিগতভাবে সংরক্ষিত হয়েছে। চাইলে এই পৃষ্ঠাটি প্রিন্ট করে PDF হিসেবে রাখতে পারেন।";
+ form.reset();
+ }catch(err){status.className="error";status.textContent="দুঃখিত, আবেদন জমা হয়নি। কিছুক্ষণ পর আবার চেষ্টা করুন।";}
+ finally{btn.disabled=false;}
+});
+</script></body></html>
