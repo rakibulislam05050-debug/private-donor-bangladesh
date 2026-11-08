@@ -6,12 +6,30 @@
 <section class="card hidden" id="panel"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap"><h2>আবেদনসমূহ</h2><button class="secondary" id="logout">লগআউট</button></div><button id="refresh">আবেদন রিফ্রেশ</button><p id="panelMsg" class="status" aria-live="polite"></p><div id="rows"></div></section>
 <p class="warn">নিরাপত্তা: এই প্যানেলে প্রবেশের অনুমতি ডেটাবেজে অ্যাডমিন হিসেবে নিশ্চিত করা হয়। লগইন সফল হলেও অনুমতি না থাকলে কোনো আবেদন দেখা যাবে না।</p>
 </main>
+<script>
+(function(){
+ const btn=document.getElementById("send"), msg=document.getElementById("loginMsg");
+ if(!btn || !msg) return;
+ btn.addEventListener("click", async function(){
+   btn.disabled=true; msg.textContent="লগইন অনুরোধ পাঠানো হচ্ছে…";
+   try {
+     const response=await fetch("https://yjmzscsshptmntfottzr.supabase.co/auth/v1/otp?redirect_to="+encodeURIComponent(location.href.split("?")[0]),{
+       method:"POST",headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k"},
+       body:JSON.stringify({email:"donorspermbangladesh@gmail.com",create_user:false})
+     });
+     if(response.ok){msg.textContent="লগইন অনুরোধ গ্রহণ করা হয়েছে। Gmail-এর Inbox ও Spam দেখুন।";}
+     else {let data={};try{data=await response.json()}catch(e){} msg.textContent="লিংক পাঠানো যায়নি: "+(data.msg||data.message||data.error_description||("HTTP "+response.status));}
+   } catch(e){msg.textContent="ইন্টারনেট/ব্রাউজার সমস্যা: "+e.message;}
+   finally{btn.disabled=false;}
+ });
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script><script>
 const URL="https://yjmzscsshptmntfottzr.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k";
 if(!window.supabase || !window.supabase.createClient){document.getElementById("loginMsg").textContent="লগইন ব্যবস্থা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজটি আবার খুলুন।";document.getElementById("send").disabled=true;throw new Error("Supabase library failed to load");}const sb=window.supabase.createClient(URL,KEY);
 const login=document.getElementById("login"),panel=document.getElementById("panel"),loginMsg=document.getElementById("loginMsg"),panelMsg=document.getElementById("panelMsg"),rows=document.getElementById("rows");
-document.getElementById("send").onclick=async()=>{const btn=document.getElementById("send");btn.disabled=true;loginMsg.textContent="লিংক পাঠানো হচ্ছে…";try{const {error}=await sb.auth.signInWithOtp({email:"donorspermbangladesh@gmail.com",options:{emailRedirectTo:location.href.split("?")[0]}});loginMsg.textContent=error?"লিংক পাঠানো যায়নি: "+error.message:"অনুরোধ পাঠানো হয়েছে। Gmail-এর Inbox ও Spam ফোল্ডার দেখুন।";}catch(e){loginMsg.textContent="সমস্যা হয়েছে: "+(e.message||"আবার চেষ্টা করুন");}finally{btn.disabled=false;}};
+document.getElementById("send").onclick=()=>{};
 document.getElementById("logout").onclick=async()=>{await sb.auth.signOut();location.reload();};
 document.getElementById("refresh").onclick=load;
 async function load(){panelMsg.textContent="আবেদন লোড হচ্ছে…";const {data,error}=await sb.from("contact_requests").select("id,request_type,full_name,phone,age_band,district,message,status,created_at").order("created_at",{ascending:false});if(error){panelMsg.textContent="অনুমতি নেই অথবা ডেটা লোড হয়নি। অ্যাডমিন অনুমতি সক্রিয় হওয়ার পর আবার চেষ্টা করুন।";rows.innerHTML="";return;}panelMsg.textContent=data.length+"টি আবেদন";if(!data.length){rows.innerHTML="<p>এখনো কোনো আবেদন নেই।</p>";return;}const table=document.createElement("table");table.innerHTML="<thead><tr><th>তারিখ</th><th>নাম</th><th>ফোন</th><th>বয়স</th><th>জেলা</th><th>ধরন/বার্তা</th><th>অবস্থা</th><th>পরিবর্তন</th></tr></thead>";const body=document.createElement("tbody");for(const x of data){const tr=document.createElement("tr");const vals=[new Date(x.created_at).toLocaleString("bn-BD"),x.full_name,x.phone,x.age_band,x.district,(x.request_type==="information_request"?"তথ্য":"যোগাযোগ")+(x.message?" — "+x.message:"")];for(const v of vals){const td=document.createElement("td");td.textContent=v??"";tr.appendChild(td);}const st=document.createElement("td");st.textContent=x.status;tr.appendChild(st);const act=document.createElement("td");const sel=document.createElement("select");for(const v of ["pending","reviewed","closed"]){const o=document.createElement("option");o.value=v;o.textContent=v==="pending"?"অপেক্ষমাণ":v==="reviewed"?"দেখা হয়েছে":"বন্ধ";sel.appendChild(o);}sel.value=x.status;const b=document.createElement("button");b.textContent="সংরক্ষণ";b.onclick=async()=>{const {error}=await sb.from("contact_requests").update({status:sel.value}).eq("id",x.id);panelMsg.textContent=error?"পরিবর্তন সংরক্ষণ হয়নি":"অবস্থা আপডেট হয়েছে";if(!error)load();};act.append(sel,b);tr.appendChild(act);body.appendChild(tr);}table.appendChild(body);rows.replaceChildren(table);}
