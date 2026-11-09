@@ -6,30 +6,13 @@
 <section class="card hidden" id="panel"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap"><h2>আবেদনসমূহ</h2><button class="secondary" id="logout">লগআউট</button></div><button id="activateAdmin">অ্যাডমিন অনুমতি চালু করুন</button><button id="refresh">আবেদন রিফ্রেশ</button><p id="panelMsg" class="status" aria-live="polite"></p><div id="rows"></div></section>
 <p class="warn">নিরাপত্তা: এই প্যানেলে প্রবেশের অনুমতি ডেটাবেজে অ্যাডমিন হিসেবে নিশ্চিত করা হয়। লগইন সফল হলেও অনুমতি না থাকলে কোনো আবেদন দেখা যাবে না।</p>
 </main>
-<script>
-(function(){
- const btn=document.getElementById("send"), msg=document.getElementById("loginMsg");
- if(!btn || !msg) return;
- btn.addEventListener("click", async function(){
-   btn.disabled=true; msg.textContent="লগইন অনুরোধ পাঠানো হচ্ছে…";
-   try {
-     const response=await fetch("https://yjmzscsshptmntfottzr.supabase.co/auth/v1/otp?redirect_to="+encodeURIComponent(location.href.split("?")[0]),{
-       method:"POST",headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k"},
-       body:JSON.stringify({email:"donorspermbangladesh@gmail.com",create_user:false})
-     });
-     if(response.ok){msg.textContent="লগইন অনুরোধ গ্রহণ করা হয়েছে। Gmail-এর Inbox ও Spam দেখুন।";}
-     else {let data={};try{data=await response.json()}catch(e){} msg.textContent="লিংক পাঠানো যায়নি: "+(data.msg||data.message||data.error_description||("HTTP "+response.status));}
-   } catch(e){msg.textContent="ইন্টারনেট/ব্রাউজার সমস্যা: "+e.message;}
-   finally{btn.disabled=false;}
- });
-})();
-</script>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script><script>
 const URL="https://yjmzscsshptmntfottzr.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k";
 if(!window.supabase || !window.supabase.createClient){document.getElementById("loginMsg").textContent="লগইন ব্যবস্থা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজটি আবার খুলুন।";document.getElementById("send").disabled=true;throw new Error("Supabase library failed to load");}const sb=window.supabase.createClient(URL,KEY);
 const login=document.getElementById("login"),panel=document.getElementById("panel"),loginMsg=document.getElementById("loginMsg"),panelMsg=document.getElementById("panelMsg"),rows=document.getElementById("rows");
-document.getElementById("send").onclick=()=>{};
+document.getElementById("send").onclick=async()=>{const b=document.getElementById("send");b.disabled=true;loginMsg.textContent="লগইন লিংক পাঠানো হচ্ছে…";const {error}=await sb.auth.signInWithOtp({email:"donorspermbangladesh@gmail.com",options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});if(error){loginMsg.textContent="লিংক পাঠানো যায়নি: "+error.message;}else{loginMsg.textContent="লিংক পাঠানো হয়েছে। এই Chrome-এই Gmail খুলে নতুন লিংক চাপুন।";}b.disabled=false;};
 document.getElementById("logout").onclick=async()=>{await sb.auth.signOut();location.reload();};
 document.getElementById("refresh").onclick=load;
 document.getElementById("activateAdmin").onclick=async()=>{const b=document.getElementById("activateAdmin");b.disabled=true;panelMsg.textContent="অ্যাডমিন অনুমতি যাচাই হচ্ছে…";const {data,error}=await sb.functions.invoke("claim-admin-access",{body:{}});if(error){panelMsg.textContent="অনুমতি চালু হয়নি। আবার চেষ্টা করুন।";b.disabled=false;return;}const {error:refreshError}=await sb.auth.refreshSession();if(refreshError){panelMsg.textContent="অনুমতি দেওয়া হয়েছে, কিন্তু সেশন রিফ্রেশ হয়নি। লগআউট করে আবার লগইন করুন।";b.disabled=false;return;}panelMsg.textContent="অ্যাডমিন অনুমতি সক্রিয় হয়েছে। আবেদন লোড হচ্ছে…";await load();b.textContent="অ্যাডমিন অনুমতি সক্রিয়";};
