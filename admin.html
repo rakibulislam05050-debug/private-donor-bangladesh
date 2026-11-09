@@ -7,6 +7,21 @@
 <p class="warn">নিরাপত্তা: এই প্যানেলে প্রবেশের অনুমতি ডেটাবেজে অ্যাডমিন হিসেবে নিশ্চিত করা হয়। লগইন সফল হলেও অনুমতি না থাকলে কোনো আবেদন দেখা যাবে না।</p>
 </main>
 
+<script>
+window.sendLoginLink=async function(){
+ const b=document.getElementById("send"),m=document.getElementById("loginMsg");
+ b.disabled=true;m.textContent="লগইন অনুরোধ পাঠানো হচ্ছে…";
+ try{
+  const res=await fetch("https://yjmzscsshptmntfottzr.supabase.co/auth/v1/otp?redirect_to="+encodeURIComponent(location.origin+location.pathname),{
+   method:"POST",headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0qKJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k"},
+   body:JSON.stringify({email:"donorspermbangladesh@gmail.com",create_user:false})
+  });
+  if(res.ok)m.textContent="লগইন লিংক পাঠানো হয়েছে। Gmail দেখুন।";
+  else{let d={};try{d=await res.json()}catch(e){}m.textContent="সমস্যা: "+(d.msg||d.message||d.error_description||("HTTP "+res.status));}
+ }catch(e){m.textContent="ইন্টারনেট সমস্যা: "+e.message;}
+ finally{b.disabled=false;}
+};
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script><script>
 const URL="https://yjmzscsshptmntfottzr.supabase.co";
 const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0KqJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k";
