@@ -13,7 +13,7 @@ window.sendLoginLink=async function(){
  b.disabled=true;m.textContent="লগইন অনুরোধ পাঠানো হচ্ছে…";
  try{
   const res=await fetch("https://yjmzscsshptmntfottzr.supabase.co/auth/v1/otp?redirect_to="+encodeURIComponent(location.origin+location.pathname),{
-   method:"POST",headers:{"Content-Type":"application/json","apikey":"sb_publishable_c3UIAJyD5s0sM_R-0txVOA_tNtxDiNI"},
+   method:"POST",headers:{"Content-Type":"application/json","apikey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0qKJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k"},
    body:JSON.stringify({email:"donorspermbangladesh@gmail.com",create_user:false})
   });
   if(res.ok)m.textContent="লগইন লিংক পাঠানো হয়েছে। Gmail দেখুন।";
@@ -24,7 +24,7 @@ window.sendLoginLink=async function(){
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script><script>
 const URL="https://yjmzscsshptmntfottzr.supabase.co";
-const KEY="sb_publishable_c3UIAJyD5s0sM_R-0txVOA_tNtxDiNI";
+const KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlqbXpzY3NzaHB0bW50Zm90dHpyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQxNTUwNzgsImV4cCI6MjEwOTczMTA3OH0.AjwR0qKJyeQdWp7ij5ZhIv83WFQuA1Wn4YioyaiRi_k";
 if(!window.supabase || !window.supabase.createClient){document.getElementById("loginMsg").textContent="লগইন ব্যবস্থা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করে পেজটি আবার খুলুন।";document.getElementById("send").disabled=true;throw new Error("Supabase library failed to load");}const sb=window.supabase.createClient(URL,KEY);
 const login=document.getElementById("login"),panel=document.getElementById("panel"),loginMsg=document.getElementById("loginMsg"),panelMsg=document.getElementById("panelMsg"),rows=document.getElementById("rows");
 window.sendLoginLink=async function(){const b=document.getElementById("send");const m=document.getElementById("loginMsg");b.disabled=true;m.textContent="লগইন অনুরোধ পাঠানো হচ্ছে…";try{const {error}=await sb.auth.signInWithOtp({email:"donorspermbangladesh@gmail.com",options:{shouldCreateUser:false,emailRedirectTo:location.origin+location.pathname}});if(error)m.textContent="লিংক পাঠানো যায়নি: "+error.message;else m.textContent="লগইন লিংক পাঠানো হয়েছে। Gmail দেখুন।";}catch(e){m.textContent="সমস্যা: "+e.message;}finally{b.disabled=false;}};
